@@ -1,19 +1,37 @@
-# LightFetch
+# LightFetch ⚙️  🇨
 
 **LightFetch** is a fetch program written in pure C programming language. :)
 
-## So, what it does?
+**⚠️ THE PROGRAM IS IN DEVELOPMENT**. That means that some things may be not implemented yet (missing)...
+The program was created for fun :). But I will still update it and give new features, as much as I can. 
+
+
+## So, what it does? 
 You may already know what fetch programs are, but if not,I will tell here. 
 Fetch programs and this aswell can show your  basic hardware information. Such as,
 Your OS/Distribution, Kernel (Version of OS), Architecture(64, 32 bit...), Hostname;
 GPU and CPU (Name and Vendor), etc...
 
 
-## Why have I created it?
+## Why have I created it?  💭
 The question why I wanted to create fetch program, is because 
 I use fetch programs very often, as for example when I am trying new/old hardware, (playing with it), trying new Distributions / OSes, and just to see if everything on system works fine, if ram has been found and even more...
 
 As why I created it, is because I wanted to dive in in C programming language (to expand my knowledge in it). And I wanted to see how fetch programs work, and where might be some difficulties. And I am being honest, I have learned a lot here. As I am only a beginner in C programming language (though I know Python pretty well :) ). 
+
+
+## How To Install it?  ❔
+To be able to run this code, you will need to download 'lshw' with your package manager (example: sudo apt install lshw). (You need to be sure, that gcc compiler is installed, on Linux it is installed By DEFAULT. So you don't need to do anything...). 
+**We are done.** Now you can just go to directory(folder) where it is installed and write following in the terminal: **'./main'**   Voila, everything works :)
+
+## Something does not work / I have a Problem (HELP)  🛟
+If you have a problem, for example something does not work correctly, try to compile the main.c file with gcc, like following:
+*gcc main.c -o main*
+
+After this everything should be working fine. If not please submit the problem on the Github page, so I could help you :).
+
+
+
 
 ### I hope you liked it as much as I did :)
 And I hope that this fetch program will be useful for someone...
