@@ -1,5 +1,5 @@
 /* Light Fetch 
- *   For Linux, BSD, Macos, Windows, etc.*/
+ *   For UNIX-LIKE OSes. For Example: Linux, BSD, Macos, etc.*/
 	
 	/* Made by Valentin */
 
