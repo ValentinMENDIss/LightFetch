@@ -1,9 +1,5 @@
 /* Light Fetch 
-<<<<<<< HEAD
  *   For UNIX-LIKE OSes. For Example: Linux, BSD, Macos, etc.*/
-=======
- *   For Linux, BSD, Macos, etc.*/
->>>>>>> 3494a71 (adding new feature (RAM Usage))
 	
 	/* Made by Valentin */
 
@@ -68,6 +64,7 @@ void get_ram_usage() {
 	unsigned long total_memory = 0;
 	unsigned long free_memory = 0;
 	unsigned long available_memory = 0;
+	unsigned long used_memory = 0;
 
 	unsigned long buffers = 0;
 	unsigned long cached = 0;
@@ -100,6 +97,10 @@ void get_ram_usage() {
 	    {
 		continue;
 	    }
+	    if(sscanf(buffer, "Active: %lu kB", &used_memory) == 1)
+	    {
+		continue;
+	    }
 	}
 
 	fclose(fp);
@@ -107,7 +108,7 @@ void get_ram_usage() {
 	
 	/* Calculations */
 
-	unsigned long used_memory = total_memory - available_memory;
+	//unsigned long used_memory = total_memory - available_memory;
 
 
 	/* Converting kB to MiB (comment everything out, if you don't want to convert kB to MiB) */
@@ -165,7 +166,7 @@ void get_ram_usage() {
 	/* Printing the values (for memory in MiB) */
 
 	/* FETCH STYLE ( SHOWS CATCHED MEMORY :/ ) */
-	printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", cached_mib, total_memory_mib);
+	printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", used_memory_mib, total_memory_mib);
 
 	/* (REAL)USED MEMORY / TOTAL MEMORY  'Version' */
 	// printf("\033[1mMemory\033[0m: %.1lf/%.1lf MiB", used_memory_mib, total_memory_mib)
