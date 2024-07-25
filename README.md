@@ -31,6 +31,10 @@ If you have a problem, for example something does not work correctly, try to com
 After this everything should be working fine. If not please submit the problem on the Github page, so I could help you :).
 
 
+### What feature/s am I working on right now?
+Right now I am working on new feature, which will be config file. It means that people that install this code can more easily configure the code to their liking. For example: turn on or of any feature (Cached memory, Buffer (Memory), Architecture, etc.). This is cool :), as I even think to add some "themes". Which are how the fetch program will look. Of course this fetch program will stay lightweight, by configuring you can turn off or on the features that can impact the performance of code. The code that is turned off, will be not compiled, which means that it will not come in to the finishing application. 
+
+*This sounds Great :)*
 
 
 ### I hope you liked it as much as I did :)
