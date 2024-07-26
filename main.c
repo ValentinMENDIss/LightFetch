@@ -64,7 +64,6 @@ void get_ram_usage() {
 	unsigned long total_memory = 0;
 	unsigned long free_memory = 0;
 	unsigned long available_memory = 0;
-	unsigned long used_memory = 0;
 
 	unsigned long buffers = 0;
 	unsigned long cached = 0;
@@ -97,10 +96,6 @@ void get_ram_usage() {
 	    {
 		continue;
 	    }
-	    if(sscanf(buffer, "Active: %lu kB", &used_memory) == 1)
-	    {
-		continue;
-	    }
 	}
 
 	fclose(fp);
@@ -108,7 +103,8 @@ void get_ram_usage() {
 	
 	/* Calculations */
 
-	//unsigned long used_memory = total_memory - available_memory;
+	//unsigned long used_memory = total_memory - free_memory - cached + buffers;     // Gives Numbers more like in htop
+	unsigned long used_memory = total_memory - available_memory;			 // More accurate (as in command: 'free -h')
 
 
 	/* Converting kB to MiB (comment everything out, if you don't want to convert kB to MiB) */
