@@ -5,6 +5,9 @@
 **⚠️ THE PROGRAM IS IN DEVELOPMENT**. That means that some things may be not implemented yet (missing)...
 The program was created for fun :). But I will still update it and give new features, as much as I can. 
 
+---
+**Preview:**
+<img src="https://github.com/user-attachments/assets/1c41fa00-3a80-4e54-9faa-cd1bd516a350">
 
 ## So, what it does? 
 You may already know what fetch programs are, but if not,I will tell here. 
