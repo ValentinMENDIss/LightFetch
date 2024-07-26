@@ -14,9 +14,34 @@
 #include <string.h>
 #include <stdlib.h>
 
+/* GLOBAL Variables */
+
+int show_total_memory = 0;
 
 
 /* Functions */
+
+
+
+/* Getting Values from 'lightfetch.conf' File */
+
+void get_config_parameters() {
+	FILE *fp;
+	char buffer[256];
+
+    fp = fopen("lightfetch.conf", "r");
+
+	while(fgets(buffer, sizeof(buffer), fp))
+	{
+	    if(sscanf(buffer, "Total-Memory: %d)", &show_total_memory) == 1)
+	    {
+                continue;
+	    }
+	}
+	fclose(fp);
+}
+
+
 
 void get_cpu_name() {
 	FILE *fp;
@@ -160,14 +185,13 @@ void get_ram_usage() {
 
 
 	/* Printing the values (for memory in MiB) */
-
 	/* FETCH STYLE ( SHOWS CATCHED MEMORY :/ ) */
-	printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", used_memory_mib, total_memory_mib);
-
+	if(show_total_memory == 1) {
+        printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", used_memory_mib, total_memory_mib);
+    }
 	/* (REAL)USED MEMORY / TOTAL MEMORY  'Version' */
 	// printf("\033[1mMemory\033[0m: %.1lf/%.1lf MiB", used_memory_mib, total_memory_mib)
 }
-
 
 
 
@@ -201,8 +225,12 @@ gethostname(hostname, sizeof(hostname));
 
 
 
+
+
+
 /* Printing LightFetch */
 
+get_config_parameters();
 printf("\n\033[1mOS/Distro:\033[0m %s  (%s)\n", buffer.nodename,  buffer.sysname);
 printf("\033[1mKernel:\033[0m %s\n", buffer.release);
 printf("\033[1mArchitecture:\033[0m %s\n", buffer.machine);
