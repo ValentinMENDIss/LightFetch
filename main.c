@@ -44,7 +44,6 @@ void get_config_parameters() {
         }
         if(sscanf(buffer, "Memory-Show-Style: %d", &memory_show_style) == 1)
         {
-                printf("%d", memory_show_style);
                 continue;
         }
     }
@@ -165,21 +164,23 @@ void get_ram_usage() {
 	  
     switch(memory_show_style) {
         case 1:
+            /* (1.) ALL-IN-ONE-STYLE (RAM) */
+          
             printf("\033[1mTotal Memory\033[0m: %.1lf MiB\n", total_memory_mib);
 	        printf("\033[1mFree Memory\033[0m: %.1lf MiB\n", free_memory_mib);			// Amount of memory that is completely unallocated. (Raw amount of unused RAM)
             printf("\033[1mAvailable Memory\033[0m: %.1lf MiB\n", available_memory_mib);          // Amount of memory that can be used for other processes (More accurate amount of unused RAM)
             printf("\033[1mUsed Memory\033[0m: %.1lf MiB\n", used_memory_mib);
-	
       	    printf("\033[1mBuffers\033[0m: %.1lf MiB\n", buffers_mib);
             printf("\033[1mCached\033[0m: %.1lf MiB\n", cached_mib);
- 
-        case 2:
-            printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", used_memory_mib, total_memory_mib);
-    }
+            break;
 
+        case 2:
+            /* (2.) HTOP/FETCH-PROGRAMS-STYLE (RAM) */
+            printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", used_memory_mib, total_memory_mib);
+            break;
+    }   
 
 	/* Printing the values (for memory in kB)
-
 	
 
 	printf("Total Memory: %lu kB\n", total_memory);
@@ -190,9 +191,6 @@ void get_ram_usage() {
 	printf("Cached: %lu kB\n", cached);
 	
 	*/
-
-
-
 
 
 	/* (2.) HTOP/FETCH-PROGRAMS-STYLE (RAM) */
@@ -210,6 +208,23 @@ void get_ram_usage() {
 }
 
 
+void get_uptime() {
+    FILE *fp;
+    double uptime;
+
+    fp = fopen("/proc/uptime", "r");
+
+    if(fscanf(fp, "%lf", &uptime) == 1){
+        printf("\033[1mUptime\033[0m: %.2f seconds\n", uptime);
+    }
+
+    fclose(fp);
+ 
+}
+
+
+
+
 
 
 
@@ -217,43 +232,33 @@ void get_ram_usage() {
 
 int main()
 {
+
 struct utsname  buffer;
 
 char hostname[HOST_NAME_MAX + 1]; // +1 for null terminator
 
-/*
-if (gethostname(hostname,
-sizeof(hostname)) == 0) {
-	printf("Host name: %s\n", hostname);
-}    else {
-	perror("gethostname");
-	return 1;
-}
-*/
-
-if (uname(&buffer) != 0) {
-	perror("uname");
-	return 1;
-	}
-
 gethostname(hostname, sizeof(hostname));
 
 
-
-
-
+if (uname(&buffer) != 0) {
+        perror("uname");
+	    return 1;
+	    }
 
 
 /* Printing LightFetch */
-
 get_config_parameters();
+
 printf("\n\033[1mOS/Distro:\033[0m %s  (%s)\n", buffer.nodename,  buffer.sysname);
 printf("\033[1mKernel:\033[0m %s\n", buffer.release);
 printf("\033[1mArchitecture:\033[0m %s\n", buffer.machine);
 printf("\033[1mHostname:\033[0m %s\n", hostname);
+
+get_uptime();
 get_cpu_name();
 get_gpu_name();
 get_ram_usage();
+
 
 printf("\n");
 
