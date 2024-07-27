@@ -17,7 +17,8 @@
 /* GLOBAL Variables */
 
 int show_total_memory = 0;
-
+int show_gpu_vendor = 0;
+int memory_show_style = 2;
 
 /* Functions */
 
@@ -37,7 +38,16 @@ void get_config_parameters() {
 	    {
                 continue;
 	    }
-	}
+	    if(sscanf(buffer, "GPU-Vendor: %d", &show_gpu_vendor) == 1)
+        {
+                continue;
+        }
+        if(sscanf(buffer, "Memory-Show-Style: %d", &memory_show_style) == 1)
+        {
+                printf("%d", memory_show_style);
+                continue;
+        }
+    }
 	fclose(fp);
 }
 
@@ -72,13 +82,16 @@ void get_gpu_name() {
 	pclose(fp);
 
 
-	/*   Finding Informatino about the GPU vendor ( Can be turned on, if you want to :) )
+	/*   Finding Informatino about the GPU vendor ( Can be turned on, if you want to :) )   */
+    
+    if(show_gpu_vendor == 1) {
+	    fp = popen("lshw -C display 2>/dev/null | grep 'vendor:' | sed 's/vendor: //'", "r");
+	    fgets(gpu_vendor, sizeof(gpu_vendor), fp);
+	    printf("\033[1mGPU\033[0m: %s", gpu_vendor);
 
-	fp = popen("lshw -C display 2>/dev/null | grep 'vendor:' | sed 's/vendor: //'", "r");
-	fgets(gpu_vendor, sizeof(gpu_vendor), fp);
-	printf("GPU: %s", gpu_vendor);
-
-	pclose(fp);	*/
+	    pclose(fp);
+        
+    }
 }
 
 
@@ -149,17 +162,20 @@ void get_ram_usage() {
 
 	/* Printing the values (for memory in MiB) */
 
-	/*  
-
-	printf("Total Memory: %.1lf MiB\n", total_memory_mib);
-	printf("Free Memory: %.1lf MiB\n", free_memory_mib);			// Amount of memory that is completely unallocated. (Raw amount of unused RAM)
-	printf("Available Memory: %.1lf MiB\n", available_memory_mib);          // Amount of memory that can be used for other processes (More accurate amount of unused RAM)
-	printf("Used Memory: %.1lf MiB\n", used_memory_mib);
+	  
+    switch(memory_show_style) {
+        case 1:
+            printf("\033[1mTotal Memory\033[0m: %.1lf MiB\n", total_memory_mib);
+	        printf("\033[1mFree Memory\033[0m: %.1lf MiB\n", free_memory_mib);			// Amount of memory that is completely unallocated. (Raw amount of unused RAM)
+            printf("\033[1mAvailable Memory\033[0m: %.1lf MiB\n", available_memory_mib);          // Amount of memory that can be used for other processes (More accurate amount of unused RAM)
+            printf("\033[1mUsed Memory\033[0m: %.1lf MiB\n", used_memory_mib);
 	
-	printf("Buffers: %.1lf MiB\n", buffers_mib);
-	printf("Cached: %.1lf MiB\n", cached_mib);
-	
-	*/
+      	    printf("\033[1mBuffers\033[0m: %.1lf MiB\n", buffers_mib);
+            printf("\033[1mCached\033[0m: %.1lf MiB\n", cached_mib);
+ 
+        case 2:
+            printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", used_memory_mib, total_memory_mib);
+    }
 
 
 	/* Printing the values (for memory in kB)
@@ -186,9 +202,9 @@ void get_ram_usage() {
 
 	/* Printing the values (for memory in MiB) */
 	/* FETCH STYLE ( SHOWS CATCHED MEMORY :/ ) */
-	if(show_total_memory == 1) {
-        printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", used_memory_mib, total_memory_mib);
-    }
+	//if(show_total_memory == 1) {
+    //    printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB", used_memory_mib, total_memory_mib);
+    //}
 	/* (REAL)USED MEMORY / TOTAL MEMORY  'Version' */
 	// printf("\033[1mMemory\033[0m: %.1lf/%.1lf MiB", used_memory_mib, total_memory_mib)
 }
