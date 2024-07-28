@@ -234,7 +234,7 @@ void get_uptime() {
     uptime_minutes = uptime_seconds / 60;
     uptime_hours = uptime_minutes / 60;
 
-    while(uptime_minutes > 60) {
+    while(uptime_minutes >= 60) {
         uptime_minutes -= 60;
     }
 
@@ -244,7 +244,7 @@ void get_uptime() {
                 printf("\033[1mUptime\033[0m: %d m\n", uptime_minutes);
                 break;
             default:
-                printf("\033[1mUptime\033[0m: %d h, %d m\n", uptime_hours);
+                printf("\033[1mUptime\033[0m: %d h, %d m\n", uptime_hours, uptime_minutes);
         }
     }
     
