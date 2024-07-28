@@ -19,6 +19,7 @@
 int show_total_memory = 0;
 int show_gpu_vendor = 0;
 int memory_show_style = 2;
+int show_uptime_seconds = 0;
 
 /* Functions */
 
@@ -43,6 +44,10 @@ void get_config_parameters() {
                 continue;
         }
         if(sscanf(buffer, "Memory-Show-Style: %d", &memory_show_style) == 1)
+        {
+                continue;
+        }
+        if(sscanf(buffer, "Show-Uptime-Seconds: %d", &show_uptime_seconds) == 1)
         {
                 continue;
         }
@@ -210,16 +215,43 @@ void get_ram_usage() {
 
 void get_uptime() {
     FILE *fp;
-    double uptime;
+    
+    double uptime_seconds;
+    
+    int uptime_minutes;
+    int uptime_hours;
+
 
     fp = fopen("/proc/uptime", "r");
 
-    if(fscanf(fp, "%lf", &uptime) == 1){
-        printf("\033[1mUptime\033[0m: %.2f seconds\n", uptime);
+    if(fscanf(fp, "%lf", &uptime_seconds) == 1){
     }
 
     fclose(fp);
- 
+
+    /* Calculations */
+
+    uptime_minutes = uptime_seconds / 60;
+    uptime_hours = uptime_minutes / 60;
+
+    while(uptime_minutes > 60) {
+        uptime_minutes -= 60;
+    }
+
+    if(show_uptime_seconds == 0) {
+        switch(uptime_hours) {
+            case 0:
+                printf("\033[1mUptime\033[0m: %d m\n", uptime_minutes);
+                break;
+            default:
+                printf("\033[1mUptime\033[0m: %d h, %d m\n", uptime_hours);
+        }
+    }
+    
+    else if(show_uptime_seconds == 1) {
+            printf("\033[1mUptime\033[0m: %.2f seconds\n", uptime_seconds);
+    }
+
 }
 
 
