@@ -2,8 +2,9 @@
 
 **LightFetch** is a fetch program written in pure C programming language. :)
 
-**⚠️ THE PROGRAM IS IN DEVELOPMENT**. That means that some things may be not implemented yet (missing)...
-The program was created for fun :). But I will still update it and give new features, as much as I can. 
+## Important Information
+
+**The program was created for fun :)**. But **I will still update it** and give new features (if needed to), as much as I can. 
 
 ---
 **Preview:**
@@ -25,9 +26,11 @@ As why I created it, is because I wanted to dive in in C programming language (t
 ## Why should I use THIS Fetch program?  👇
 As why you may want to use this fetch program, is because it was being made to be very lightweight and have great performance (It means there will be no fancy stuff: images, fancy looking text, etc.). 
 It is **Very Simple** designed. And also, because it was written by a person that only started to learn C :). 
-Of course this project is just for fun and you can use any other Fetch program.  
+Also it has *lightfetch.conf* file, where you can easily customize the output of the fetch program to your liking.
+*Of course this project is just for fun and you can use any other Fetch program.* 
 
-( There are a lot of awesome Programs that are made by other people :D ) 
+**( There are a lot of awesome Programs that are made by other people :D ) **
+
 
 ## How To Install it?  ❔
 To be able to run this code, **_you will need to download 'lshw'_** with your package manager (example: sudo apt install lshw). (You need to be sure, that gcc compiler is installed, on Linux it is installed By DEFAULT. So you don't need to do anything...). 
@@ -41,7 +44,8 @@ After this everything should be working fine. If not please submit the problem o
 
 
 ### What feature/s am I working on right now?
-Right now I am working on new feature, which will be a **config file**. It means that people that install this code can more **easily configure the code to their liking**. For example: *turn on or of any feature* (Cached memory, Buffer (Memory), Architecture, etc.). This is cool :) , as I think even to add some **leight "themes"** *(neofetch like theme / advanced theme (info that it contains))* . Which are how the fetch program will look. 
+Right now I don't know what I could add to this fetch program, as I want this fetch program to **stay lightweight** and **contain only useful output**.
+
 Of course **this fetch program will stay lightweight**, by configuring you can turn off or on the features that can impact the performance of code. The code that is turned off, will be not compiled, which means that it will not come in to the finishing application (*--> better response time of the code*). 
 
 *This sounds Great :)*
