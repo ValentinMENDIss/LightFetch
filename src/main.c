@@ -25,6 +25,15 @@ int show_uptime_seconds = 0;
 int show_uptime = 0;
 int show_ram_usage = 0;
 
+/* Defining Colors */
+
+#define ANSI_COLOR_RED     "\x1b[31m"
+#define ANSI_COLOR_GREEN   "\x1b[32m"
+#define ANSI_COLOR_YELLOW  "\x1b[33m"
+#define ANSI_COLOR_BLUE  "\x1b[34m"
+#define ANSI_COLOR_MAGENTA "\x1b[35m"
+#define ANSI_COLOR_CYAN    "\x1b[36m"
+#define ANSI_COLOR_RESET   "\x1b[0m"
 
 /* Functions */
 
@@ -84,7 +93,7 @@ void get_cpu_name() {
 	            while (fgets(buffer,sizeof(buffer), fp)) {
 		                if (strncmp(buffer, match, strlen(match)) == 0) {
 			                    char *cpu_name = strchr(buffer, ':') + 2;	// Finding the ':' and printing the value after it
-			                    printf("\033[1mCPU\033[0m: %s", cpu_name);
+			                    printf(ANSI_COLOR_BLUE "\033[1mCPU\033[0m: %s" ANSI_COLOR_RESET, cpu_name);
 			                    break;
 		                }
 	            }
@@ -99,7 +108,7 @@ void get_gpu_name() {
 
 	            fp = popen("lshw -C display 2>/dev/null | grep 'product:' | sed 's/product: //'", "r");
 	            fgets(gpu_name, sizeof(gpu_name), fp);
-	            printf("\033[1mGPU\033[0m: %s", gpu_name);
+	            printf(ANSI_COLOR_BLUE "\033[1mGPU\033[0m: %s" ANSI_COLOR_RESET, gpu_name);
 
 	            pclose(fp);
         }
@@ -112,7 +121,7 @@ void get_gpu_name() {
 	    
                 fp = popen("lshw -C display 2>/dev/null | grep 'vendor:' | sed 's/vendor: //'", "r");
 	            fgets(gpu_vendor, sizeof(gpu_vendor), fp);
-	            printf("\033[1mGPU\033[0m: %s", gpu_vendor);
+	            printf(ANSI_COLOR_BLUE "\033[1mGPU\033[0m: %s" ANSI_COLOR_RESET, gpu_vendor);
 
 	            pclose(fp);
         
@@ -193,17 +202,17 @@ void get_ram_usage() {
                 switch(memory_show_style) {
                         case 1:
                                 /* (1.) ALL-IN-ONE-STYLE (RAM) */
-                                printf("\033[1mTotal Memory\033[0m: %.1lf MiB\n", total_memory_mib);
-	                            printf("\033[1mFree Memory\033[0m: %.1lf MiB\n", free_memory_mib);			// Amount of memory that is completely unallocated. (Raw amount of unused RAM)
-                                printf("\033[1mAvailable Memory\033[0m: %.1lf MiB\n", available_memory_mib);          // Amount of memory that can be used for other processes (More accurate amount of unused RAM)
-                                printf("\033[1mUsed Memory\033[0m: %.1lf MiB\n", used_memory_mib);
-      	                        printf("\033[1mBuffers\033[0m: %.1lf MiB\n", buffers_mib);
-                                printf("\033[1mCached\033[0m: %.1lf MiB\n", cached_mib);
+                                printf(ANSI_COLOR_BLUE "\033[1mTotal Memory\033[0m: %.1lf MiB\n" ANSI_COLOR_RESET, total_memory_mib);
+	                            printf(ANSI_COLOR_BLUE "\033[1mFree Memory\033[0m: %.1lf MiB\n" ANSI_COLOR_RESET, free_memory_mib);			// Amount of memory that is completely unallocated. (Raw amount of unused RAM)
+                                printf(ANSI_COLOR_BLUE "\033[1mAvailable Memory\033[0m: %.1lf MiB\n" ANSI_COLOR_RESET, available_memory_mib);          // Amount of memory that can be used for other processes (More accurate amount of unused RAM)
+                                printf(ANSI_COLOR_BLUE "\033[1mUsed Memory\033[0m: %.1lf MiB\n" ANSI_COLOR_RESET , used_memory_mib);
+      	                        printf(ANSI_COLOR_BLUE "\033[1mBuffers\033[0m: %.1lf MiB\n" ANSI_COLOR_RESET , buffers_mib);
+                                printf(ANSI_COLOR_BLUE "\033[1mCached\033[0m: %.1lf MiB\n" ANSI_COLOR_RESET , cached_mib);
                                 break;
 
                         case 2:
                                 /* (2.) HTOP/FETCH-PROGRAMS-STYLE (RAM) */
-                                printf("\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB\n", used_memory_mib, total_memory_mib);
+                                printf(ANSI_COLOR_BLUE "\033[1mMemory:\033[0m %.1lf MiB/%.1lf MiB\n" ANSI_COLOR_RESET , used_memory_mib, total_memory_mib);
                                 break;
                 }   
         
@@ -251,14 +260,14 @@ void get_uptime() {
                 if(show_uptime_seconds == 0) {
                         switch(uptime_hours) {
                                 case 0:
-                                        printf("\033[1mUptime\033[0m: %d m\n", uptime_minutes);
+                                        printf(ANSI_COLOR_BLUE "\033[1mUptime\033[0m: %d m\n"ANSI_COLOR_RESET , uptime_minutes);
                                         break;
                                 default:
-                                        printf("\033[1mUptime\033[0m: %d h, %d m\n", uptime_hours, uptime_minutes);
+                                        printf(ANSI_COLOR_BLUE "\033[1mUptime\033[0m: %d h, %d m\n"ANSI_COLOR_RESET , uptime_hours, uptime_minutes);
                         }
                 }
                 else if(show_uptime_seconds == 1) {
-                        printf("\033[1mUptime\033[0m: %.2f seconds\n", uptime_seconds);
+                        printf(ANSI_COLOR_BLUE "\033[1mUptime\033[0m: %.2f seconds\n"ANSI_COLOR_RESET , uptime_seconds);
                 }
 
         }
@@ -314,10 +323,10 @@ int main()
 
         get_config_parameters();
 
-        printf("\n\033[1mOS/Distro:\033[0m %s  (%s)\n", buffer.nodename,  buffer.sysname);
-        printf("\033[1mKernel:\033[0m %s\n", buffer.release);
-        printf("\033[1mArchitecture:\033[0m %s\n", buffer.machine);
-        printf("\033[1mHostname:\033[0m %s\n", hostname);
+        printf(ANSI_COLOR_BLUE "\n\033[1mOS/Distro:\033[0m %s  (%s)\n" ANSI_COLOR_RESET, buffer.nodename,  buffer.sysname);
+        printf(ANSI_COLOR_BLUE "\033[1mKernel:\033[0m %s\n" ANSI_COLOR_RESET, buffer.release);
+        printf(ANSI_COLOR_BLUE "\033[1mArchitecture:\033[0m %s\n" ANSI_COLOR_RESET, buffer.machine);
+        printf(ANSI_COLOR_BLUE "\033[1mHostname:\033[0m %s\n" ANSI_COLOR_RESET, hostname);
 
         get_uptime();
         get_cpu_name();
